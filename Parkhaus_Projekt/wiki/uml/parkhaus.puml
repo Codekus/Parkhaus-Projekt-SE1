@@ -1,0 +1,380 @@
+@startuml
+interface parkhaus.LevelIF {
+~ boolean entry(Car,int)
+~ boolean leave(int)
+~ String getName()
+~ int getFamCap()
+~ int getNormCap()
+~ int getSpnCap()
+~ JSON toJson()
+}
+class statistics.SumFees {
++ <<Create>> SumFees(float)
++ void setParams(Object)
+}
+class parkhaus.ConfigHelper {
+- <<Create>> ConfigHelper()
++ {static} JSON createJSON(String,Object)
++ {static} JSONArray createJSONArray(int,List<String>,List<Integer>,List<Integer>,List<Integer>)
+}
+class statistics.ChangedTypeOverall {
+- int fam
+- int spn
++ <<Create>> ChangedTypeOverall()
+- <<Create>> ChangedTypeOverall(int,int,Object)
++ void setParams(Object)
+- String calcAvgDifferentSlot()
++ ChangedTypeOverall copy()
+}
+class iterator.ParkSlotGenerator {
+- int normCount
+- int famCount
+- int spnCount
++ void setCounts(int,int,int)
++ Iterator<ParkSlot> iterator()
+}
+class iterator.ParkSlotGenerator.ParkSlotIterator {
+~ int count
++ boolean hasNext()
++ ParkSlot next()
+}
+class command.CarParkCommands {
+~ Stack<List<Level>> levelStack
+~ Stack<List<JSON>> lastLeaveCar
+~ Stack<List<JSON>> carParkHistory
+~ Stack<ChangedType> changedType
+~ Stack<ChangedTypeOverall> changedTypeOverall
+~ CarPark carPark
++ void enter()
++ void enterNormal()
++ void enterFamily()
++ void enterSpecialNeed()
++ void leave(int)
++ void undo()
+- void pushProgress()
+- void popProgress()
+}
+class command.EnterFamilyCar {
+- CarParkCommands carParkCommands
++ <<Create>> EnterFamilyCar(CarParkCommands)
++ void execute()
+}
+interface parkhaus.CarParkIF {
+~ boolean entry(Car)
+~ boolean leave(int)
+~ String getStatus()
+}
+class command.LeaveCar {
+- CarParkCommands carParkCommands
+- int pos
++ <<Create>> LeaveCar(CarParkCommands,int)
++ void execute()
+}
+abstract class template.StatisticsTemplate {
+# String key
+# Object object
++ void addToJson(JSON)
++ {abstract}void setParams(Object)
++ Object getObject()
+}
+interface parkhaus.ParkSlotIF {
+~ boolean entry(Car)
+~ boolean leave(int)
+~ Car getCar()
+~ boolean block()
+~ boolean unblock()
+~ boolean isFree()
+~ Type getType()
+~ int getId()
+}
+class statistics.AvgParkDuration {
+- int count
+- double duration
++ <<Create>> AvgParkDuration(double)
++ void setParams(Object)
+- double calcAvgDuration()
+}
+class parkhaus.ParkSlot {
+- int id
+- boolean freeStatus
+- Type type
+- Car car
+- String color
+~ SecureRandom rand
++ <<Create>> ParkSlot(Type,int)
+- <<Create>> ParkSlot(Type,int,boolean,Car,String)
++ boolean entry(Car)
++ boolean leave(int)
++ Car getCar()
++ boolean block()
++ boolean unblock()
++ boolean isFree()
++ Type getType()
++ int getId()
++ void setColor()
++ String getColor()
++ JSON toJson()
++ ParkSlot copy()
+}
+interface command.Command {
+~ void execute()
+}
+class parkhaus.Car {
+- Instant entryPoint
+- String licensePlate
+- Type type
+~ SecureRandom rand
+- int slotId
+- String level
+- Type origin
+- float price
+- double duration
++ <<Create>> Car(Type)
+- void setLicensePlate()
++ Type getType()
++ String getLicensePlate()
++ double getDuration()
++ void setSlot(int)
++ int getSlot()
++ void setLevel(String)
++ String getLevel()
++ void setToNormal()
++ void setToFam()
++ Type getOrigin()
++ void setPrice(float)
++ float getPrice()
++ JSON getLeaveData()
+}
+class parkhaus.Level {
+- String name
+- List<ParkSlot> parkSlots
+- JSON lastLeaveCar
+- int normCap
+- int famCap
+- int spnCap
+- int fees
+- int id
+- AvgParkDuration avgParkDuration
+- SumFees sumFees
+~ ParkSlotGenerator parkSlotsGenerator
+~ Iterator<ParkSlot> parkSlotIterator
++ <<Create>> Level(String,int,int,int,int,int)
+- <<Create>> Level(String,int,int,int,int,int,List<ParkSlot>,AvgParkDuration,SumFees)
+- void genParkSlot(int,int,int)
++ List<ParkSlot> getParkSlots()
++ boolean entry(Car,int)
++ int getOccupied()
++ int getMaxCount()
++ boolean leave(int)
++ Car getCar(int)
++ JSON getLastLeaveCar()
++ String getName()
++ int getFamCap()
++ int getNormCap()
++ int getSpnCap()
++ JSON toJson()
++ float getSum()
++ double getAvgParkDuration()
++ int getId()
++ Level copy()
+}
+class template.ChartTemplate {
+~ JSON charts
++ JSONArray chart()
++ void setX(String)
++ void setY(Object)
++ List<Double> valueHelper(List<ArrayList<Double>>)
++ List<String> nameHelper(String)
+}
+class command.EnterNormalCar {
+- CarParkCommands carParkCommands
++ <<Create>> EnterNormalCar(CarParkCommands)
++ void execute()
+}
+class parkhaus.CarParkServlet {
+- {static} int levelCount
+- {static} CarPark carPark
+- {static} Logger LOGGER
+- {static} String EVENT_STREAM
+- {static} String UTF
+- {static} String DATA
+- {static} String COUNT_PARKED_CARS
+- {static} String OCTET_STREAM
+- {static} String CONTENT_DISPOSITION
+- {static} String CAPACITY
+- {static} String JSON_ERROR_MSG
+- {static} String SERVLET_EXCEPTION_MSG
+- {static} String IO_ERROR_MSG
+~ {static} ChartTemplate chartTemplate
+~ {static} ChartTemplate chartTemplateCapacity
+- {static} Command command
+- {static} CarParkCommands carParkCommands
+- {static} Command undo
+- {static} Command enter
+- {static} Command enterNormal
+- {static} Command enterFamily
+- {static} Command enterSpnNeed
++ {static} void safeCommand(Command)
++ void activateCommand()
+# void handleEventStream(HttpServletRequest,HttpServletResponse)
+# void doGet(HttpServletRequest,HttpServletResponse)
+# void doPost(HttpServletRequest,HttpServletResponse)
+- {static} void initCommands()
++ {static} void writeToConfig(HttpServletRequest)
+- String statusUpdate()
+- String chartCountUpdate()
+- String capacityUpdate()
+}
+class command.EnterSpecialNeedsCar {
+- CarParkCommands carParkCommands
++ <<Create>> EnterSpecialNeedsCar(CarParkCommands)
++ void execute()
+}
+class parkhaus.JSON {
+- {static} File configFile
+- {static} Logger LOGGER
++ <<Create>> JSON()
++ <<Create>> JSON(String)
++ <<Create>> JSON(String,Object)
++ void addObject(String,Object)
++ List<ArrayList<Double>> getDoubleArray(String)
+- {static} void setConfigPath()
++ {static} JSON getConfigJson()
++ {static} void writeToConfig(JSON)
++ JSON copy()
+}
+class command.EnterCar {
+- CarParkCommands carParkCommands
++ <<Create>> EnterCar(CarParkCommands)
++ void execute()
+}
+class statistics.ParkSlotCapacity {
+- {static} String FALSE
+- {static} String FREE_STATUS
+- {static} String TYPE
++ <<Create>> ParkSlotCapacity()
++ void setParams(Object)
++ String[][] calcValues()
+- double[][] getFreeSlotsCount()
+}
+class parkhaus.CarPark {
+- JSON json
+- int[][] maxParkSlots
+- int counter
+- List<JSON> carParkHistory
+- List<JSON> lastLeaveCar
+- ParkSlotCapacity parkSlotCapacity
+- ChangedType changedType
+- ChangedTypeOverall changedTypeOverall
+- {static} CarPark instance
+- {static} String COUNT_PARKED_CARS
+- {static} String MAX_CARS
+- {static} String SUM_FEES
+- {static} String AVG_PARK_DURATION
+~ List<Level> levels
+- <<Create>> CarPark()
++ {static} CarPark getInstance()
++ JSON getStatsJson()
++ boolean entry(Car)
+- int getParkSlotValue(List<Map.Entry<Level,Optional<ParkSlot>>>)
++ boolean leave(int)
++ String getStatus()
++ void loadJson()
++ List<Level> getLevels()
++ {static} void setNull()
++ int[][] getMaxParkSlots()
++ JSON getJson()
++ JSON getLeaveCarJSON()
++ List<JSON> getLeaveCarJSONList()
++ void setLeaveCarJSON(List<JSON>)
++ List<JSON> getCarParkHistory()
++ List<JSON> getCarParkHistoryJSON()
++ void setCarParkHistory(List<JSON>)
++ Map<Type,Integer> getCounter()
++ int getOverallCounter()
++ void setLevels(List<Level>)
++ ChangedType getCopiedChangedType()
++ ChangedTypeOverall getCopiedChangedTypeOverall()
++ void setChangedType(ChangedType)
++ void setChangedTypeOverall(ChangedTypeOverall)
++ List<Level> getCopyLevels()
+}
+interface parkhaus.CarIF {
+~ Type getType()
+~ String getLicensePlate()
+~ double getDuration()
+~ {static} double milliToHours(double)
+~ void setSlot(int)
+~ int getSlot()
+~ void setLevel(String)
+~ String getLevel()
+~ void setToNormal()
+~ void setToFam()
+~ Type getOrigin()
+~ void setPrice(float)
+~ float getPrice()
+~ JSON getLeaveData()
+}
+class command.Undo {
+- CarParkCommands carParkCommands
++ <<Create>> Undo(CarParkCommands)
++ void execute()
+}
+class statistics.ChangedType {
+- int fam
+- int spn
++ <<Create>> ChangedType()
+- <<Create>> ChangedType(int,int,Object)
++ void setParams(Object)
++ void reduce(Object)
+- String calcAvgDifferentSlot()
++ ChangedType copy()
+}
+enum parkhaus.Type {
++  NORMAL
++  FAMILY
++  SPECIAL_NEED
+- {static} List<Type> VALUES
+- {static} int SIZE
+- {static} SecureRandom RANDOM
++ {static} Type randomType()
+}
+
+
+java.io.Serializable <|.. statistics.SumFees
+template.StatisticsTemplate <|-- statistics.SumFees
+java.io.Serializable <|.. parkhaus.ConfigHelper
+java.io.Serializable <|.. statistics.ChangedTypeOverall
+template.StatisticsTemplate <|-- statistics.ChangedTypeOverall
+iterator.Iterable <|.. iterator.ParkSlotGenerator
+java.io.Serializable <|.. iterator.ParkSlotGenerator
+iterator.ParkSlotGenerator +.. iterator.ParkSlotGenerator.ParkSlotIterator
+iterator.Iterator <|.. iterator.ParkSlotGenerator.ParkSlotIterator
+iterator.Serializable <|.. iterator.ParkSlotGenerator.ParkSlotIterator
+command.Command <|.. command.EnterFamilyCar
+java.io.Serializable <|.. command.EnterFamilyCar
+command.Command <|.. command.LeaveCar
+java.io.Serializable <|.. command.LeaveCar
+java.io.Serializable <|.. statistics.AvgParkDuration
+template.StatisticsTemplate <|-- statistics.AvgParkDuration
+parkhaus.ParkSlotIF <|.. parkhaus.ParkSlot
+parkhaus.CarIF <|.. parkhaus.Car
+java.io.Serializable <|.. parkhaus.Car
+parkhaus.LevelIF <|.. parkhaus.Level
+command.Command <|.. command.EnterNormalCar
+java.io.Serializable <|.. command.EnterNormalCar
+javax.servlet.http.HttpServlet <|-- parkhaus.CarParkServlet
+command.Command <|.. command.EnterSpecialNeedsCar
+java.io.Serializable <|.. command.EnterSpecialNeedsCar
+parkhaus.Serializable <|.. parkhaus.JSON
+org.json.JSONObject <|-- parkhaus.JSON
+command.Command <|.. command.EnterCar
+java.io.Serializable <|.. command.EnterCar
+java.io.Serializable <|.. statistics.ParkSlotCapacity
+template.StatisticsTemplate <|-- statistics.ParkSlotCapacity
+parkhaus.CarParkIF <|.. parkhaus.CarPark
+command.Command <|.. command.Undo
+java.io.Serializable <|.. command.Undo
+java.io.Serializable <|.. statistics.ChangedType
+template.StatisticsTemplate <|-- statistics.ChangedType
+@enduml

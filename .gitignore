@@ -1,0 +1,23 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+text.txt
+tmp.txt
+/Uebung_2.2/*.iml
+.idea/
+Uebung_2.2/.idea
+/.project
+/Parkhaus_Simulation_1/*.iml
+/se1-starter-repo/target/
+/se1-starter-repo/.idea/
+/se1-starter-repo/.idea/*.iml
+/se1-starter-repo/se1-starter-repo.iml
+/Uebung_2.2/Uebung_2.2.iml~origin_main
+/Parkhaus_Simulation_1/Parkhaus_Simulation_1.iml~origin_main
+/se1-starter-repo/se1-starter-repo.iml~origin_main
+/Parkhaus_Projekt/*.iml
+/Parkhaus_Projekt/target
+*.class
+/Parkhaus_Projekt/src/main/resources/META-INF/persistence.xml
+/Parkhaus_Projekt/src/assets/config.JSON
+out/artifacts

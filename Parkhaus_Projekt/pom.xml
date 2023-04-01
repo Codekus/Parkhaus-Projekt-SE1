@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.example</groupId>
+    <artifactId>Parkhaus_Projekt</artifactId>
+    <packaging>war</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <name>Parkhaus_Projekt</name>
+
+
+    <build>
+        <testSourceDirectory>src/main/test/java</testSourceDirectory>
+
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M7</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <warName>Parkhaus_Projekt</warName>
+                    <warSourceDirectory>web</warSourceDirectory>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.0.0</version>
+                <!-- Clean up also any pre-compiled themes -->
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.10.0</version>
+                <configuration>
+                    <source>11</source>
+                    <target>11</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.8</version>
+
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>reportAggregate</id>
+                        <goals>
+                            <goal>report-aggregate</goal>
+                        </goals>
+                        <phase>verify</phase>
+                    </execution>
+                      <execution>
+                          <id>toCheck</id>
+                          <goals>
+                              <goal>check</goal>
+                          </goals>
+                          <configuration>
+                              <rules>
+                                  <rule>
+                                      <element>BUNDLE</element>
+                                      <limits>
+                                          <limit>
+                                              <counter>INSTRUCTION</counter>
+                                              <value>COVEREDRATIO</value>
+                                              <minimum>0.60</minimum>
+                                          </limit>
+                                      </limits>
+                                  </rule>
+                              </rules>
+                          </configuration>
+                      </execution>
+                  </executions>
+              </plugin>
+          </plugins>
+
+      </build>
+
+      <properties>
+          <maven.compiler.source>11</maven.compiler.source>
+          <maven.compiler.target>11</maven.compiler.target>
+          <sonar.coverage.jacoco.xmlReportPaths>Parkhaus_Projekt/target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+          <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+          <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+      </properties>
+
+      <dependencies>
+          <!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
+          <dependency>
+              <groupId>org.mockito</groupId>
+              <artifactId>mockito-core</artifactId>
+              <version>4.6.0</version>
+          </dependency>
+          <!-- https://mvnrepository.com/artifact/org.awaitility/awaitility -->
+          <dependency>
+              <groupId>org.awaitility</groupId>
+              <artifactId>awaitility</artifactId>
+              <version>3.0.0</version>
+              <scope>test</scope>
+          </dependency>
+
+          <dependency>
+              <groupId>org.jacoco</groupId>
+              <artifactId>jacoco-maven-plugin</artifactId>
+              <version>[0.8.8,)</version>
+          </dependency>
+          <dependency>
+              <groupId>org.junit.jupiter</groupId>
+              <artifactId>junit-jupiter-api</artifactId>
+              <version>[5.8.2,)</version>
+              <scope>test</scope>
+          </dependency>
+          <dependency>
+              <groupId>org.junit.jupiter</groupId>
+              <artifactId>junit-jupiter-engine</artifactId>
+              <version>[5.8.2,)</version>
+              <scope>test</scope>
+          </dependency>
+          <dependency>
+              <groupId>com.googlecode.json-simple</groupId>
+              <artifactId>json-simple</artifactId>
+              <version>1.1.1</version>
+          </dependency>
+          <!-- https://mvnrepository.com/artifact/junit/junit -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>[4.13.2,)</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>[4.0.1,)</version>
+            <scope>compile</scope>
+        </dependency>
+          <dependency>
+              <groupId>org.apache.commons</groupId>
+              <artifactId>commons-text</artifactId>
+              <version>1.9</version>
+          </dependency>
+
+          <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>[20190722,)</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>[2.11.0,)</version>
+        </dependency>
+
+
+    </dependencies>
+
+</project>

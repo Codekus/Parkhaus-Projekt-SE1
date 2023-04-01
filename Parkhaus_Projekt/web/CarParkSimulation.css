@@ -1,0 +1,183 @@
+body{
+    background-color: ghostwhite;
+}
+
+#enter, #leave, #status, #enterN, #enterF, #sumFees{
+    border-radius: 5px 5px 0 0;
+    border-collapse: collapse;
+    background-color: #009879;
+    color: white;
+    overflow: hidden;
+    margin-left: 10px;
+    margin-top: 10px;
+    width: 140px;
+    height: 38px;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+#maxCountCars, #changedType{
+    border-radius: 5px 5px 0 0;
+    border-collapse: collapse;
+    background-color: #009879;
+    color: white;
+    overflow: hidden;
+    margin-left: 10px;
+    margin-top: 10px;
+    width: 260px;
+    height: 38px;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+#avgParkDuration{
+    border-radius: 5px 5px 0 0;
+    border-collapse: collapse;
+    background-color: #009879;
+    color: white;
+    overflow: hidden;
+    margin-left: 10px;
+    margin-top: 10px;
+    width: 200px;
+    height: 38px;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+#enterSP, #countParkedCars{
+    border-radius: 5px 5px 0 0;
+    border-collapse: collapse;
+    background-color: #009879;
+    color: white;
+    overflow: hidden;
+    margin-left: 10px;
+    margin-top: 10px;
+    width: 165px;
+    height: 38px;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.parkingSlotN {
+    margin-top: 15px;
+    margin-left: 10px;
+    background-color: lightgray;
+    height: 140px;
+    width: 110px;
+    border: 2px solid black;
+    display: inline-block;
+}
+
+.parkingSlotF {
+    margin-top: 15px;
+    margin-left: 10px;
+    background-color: pink;
+    height: 140px;
+    width: 110px;
+    border: 2px solid black;
+    display: inline-block;
+}
+
+.parkingSlotSP {
+    margin-top: 15px;
+    margin-left: 10px;
+    background-color: cornflowerblue;
+    height: 140px;
+    width: 110px;
+    border: 2px solid black;
+    display: inline-block;
+    background-image: url("Images/SpecialNeed.png");
+    background-size: 110px 140px;
+}
+
+.car{
+    visibility: hidden;
+    margin-top: 24px;
+    margin-left: 20px;
+    height: 85px;
+    width: 60px;
+    border: 2px solid black;
+    border-radius: 25px;
+}
+
+.content-table {
+    border-collapse: collapse;
+    margin: 70px 0;
+    font-size: 1.3em;
+    min-width: 1000px;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgb(0, 0, 0.15);
+}
+.content-table thead tr {
+    background-color: #009879;
+    color: white;
+    text-align: left;
+    font-weight: bold;
+}
+
+.content-table th,
+.content-table td {
+    padding: 12px 15px;
+}
+
+.content-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.content-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+tr:hover {
+    background-color: #FFCF8B
+}
+td {padding: 5px;}
+
+.carParkHeader {
+    margin-top: 20px;
+    margin-bottom: -50px;
+}
+
+.CarParkStatus, .carParkHeader{
+    font-weight: bold;
+    text-shadow: 1px 1px 2px #777
+}
+
+
+.button-red {
+    background: #FF4742;
+    border: 1px solid #FF4742;
+    border-radius: 6px;
+    box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-family: nunito,roboto,proxima-nova,"proxima nova",sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 16px;
+    min-height: 40px;
+    outline: 0;
+    padding: 12px 14px;
+    text-align: center;
+    text-rendering: geometricprecision;
+    text-transform: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: middle;
+}
+
+.button-red:hover,
+.button-red:active {
+    background-color: initial;
+    background-position: 0 0;
+    color: #FF4742;
+}
+
+.button-red:active {
+    opacity: .5;
+}
+
